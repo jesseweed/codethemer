@@ -8,16 +8,16 @@ module.exports = function (app, express) {
 
     // global settings
     app.site = {
-        name : "site-name",
-        page_title : 'Site Name',
+        name : "codethemer",
+        page_title : 'Code Themer',
         protocol : 'http://',
         port : 3333
     };
 
     // metadata
     app.site.meta = {
-        description : '',
-        keywords : '',
+        description : 'Code tmerer : source code theming',
+        keywords : 'source code, code color, code theme, sublime text',
         viewport : 'width=device-width, user-scalable=yes, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0',
         encoding : "utf-8"
     };
@@ -25,8 +25,8 @@ module.exports = function (app, express) {
 
     // set domain
     if (env === 'development') { app.site.domain = "localhost:" + app.site.port + "/";
-        } else if (env === 'staging') { app.site.domain = 'staging.site-name.com';
-        } else { app.site.domain = 'site-name.com'; }
+        } else if (env === 'staging') { app.site.domain = 'staging.codethemer.com';
+        } else { app.site.domain = 'codethemer.com'; }
 
     // base url
     app.site.url = app.site.protocol + app.site.domain;
