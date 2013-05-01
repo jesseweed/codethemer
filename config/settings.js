@@ -11,7 +11,7 @@ module.exports = function (app, express) {
         name : "site-name",
         page_title : 'Site Name',
         protocol : 'http://',
-        port : 3000
+        port : 3333
     };
 
     // metadata
