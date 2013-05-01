@@ -343,9 +343,7 @@ App.Nav = {
 
         $(key).destroy();
 
-        if ( typeof page === 'undefined' || pages === null || pages === '' ) {
-
-            console.log('empty');
+        if ( typeof page === undefined || pages === null || pages === '' ) {
             
             location.href = this.html.emptyPage;
 
