@@ -1,0 +1,35 @@
+{
+  "name": "Codethemer",
+  "subdomain": "codethemer",
+  "version": "0.0.1",
+  "private": false,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jesseweed/codethemer.git"
+  },
+  "scripts": {
+    "start": "app.js"
+  },
+  "devDependencies": {
+    "grunt": "0.4.0rc7",
+    "grunt-contrib-uglify": "~0.1.1rc6",
+    "grunt-contrib-concat": "~0.1.3",
+    "grunt-contrib-watch": "0.2.0rc7",
+    "grunt-contrib-jshint": "~0.4.3"
+  },
+  "dependencies": {
+    "express": "3.0.5",
+    "jade": "*",
+    "stylus": "*",
+    "nib": "*",
+    "requirejs": "*",
+    "request": ">= 2.x",
+    "MD5": "1.0.x",
+    "express-resource": "1.0.x",
+    "mongoose": "3.5.x"
+  },
+  "license": "MIT",
+  "engines": {
+    "node": "0.8"
+  }
+}

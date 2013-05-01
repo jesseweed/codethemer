@@ -1,0 +1,247 @@
+// JavaScript Document
+var alertBox = new Class({
+						 
+options: {
+title: null,
+message: null,
+dimmer : false,
+type : 'info',
+element : 'onclick',
+button_text : 'OK',
+button_action : 'hide',
+max_width : '400px',
+min_width : '400px',
+hide_key : 'enter',
+auto_hide : false,
+html : false
+},
+
+initialize: function(options){
+this.setOptions(options)
+},
+
+
+
+show: function(dynamic_title, dynamic_message){
+
+	// CREATE ALL DIV'S NEEDED TO DISPLAY ALERT
+	var alertBox = new Element('div', { 'id': 'alertBox' }),
+	alertBG = new Element('div', {'id': 'alertBG' }),
+	alertContainer = new Element('div', {'id': 'alertContainer' }),
+	alertTitle = new Element('div', {'id': 'alertTitle' }),
+	alertHTML = new Element('div', {'id': 'alertHTML' }),
+	alertMessage = new Element('div', { 'id': 'alertMessage' }),
+	alertButton = new Element('div', { 'id': 'alertButton' }),
+	alertOverlay = new Element('div', {'id': 'alertOverlay', }),
+	element = this.options.element,
+	dim = this.options.dimmer,
+	type = this.options.type,
+	button_text = this.options.button_text,
+	hide_button = this.options.hide_button,
+	button_action = this.options.button_action,
+	hide_key = this.options.hide_key,
+	max_width = this.options.max_width,
+	min_width = this.options.min_width,
+	html = this.options.html,
+	auto_close = this.options.auto_hide;
+	b = document.id(document.body);
+		
+	if (dynamic_title != null) {
+		title = dynamic_title;
+	} else {
+		title = this.options.title;
+	}
+	
+	if (dynamic_message != null) {
+		message = dynamic_message;
+	} else {
+		message = this.options.message;
+	}
+	
+	if (element!=='onclick') {
+	$(element).addEvent('click', function(){
+
+	if (html===false) {
+	alertOverlay.inject(b, 'top');	
+	alertBox.inject(b, 'bottom');
+	alertBG.inject(document.id('alertBox'), 'top');
+	alertContainer.inject(document.id('alertBG'), 'top');
+	alertTitle.inject(document.id('alertContainer'), 'top');
+	alertMessage.inject(document.id('alertTitle'), 'after');
+	alertButton.inject(document.id('alertMessage'), 'after');
+		
+	var a = document.id('alertBox'),bg=document.id('alertBG'),btn=document.id('alertButton'),c=document.id('alertContainer'),
+	t=document.id('alertTitle'),m=document.id('alertMessage'),o=document.id('alertOverlay');
+
+	// SET CLASSES BASED ON ALERT TYPE
+	if (type==='info') {t.addClass('alertTitleInfo');c.addClass('alertContainerInfo');m.addClass('alertMessageInfo');btn.addClass('alertButtonInfo');}
+	if (type==='success') {t.addClass('alertTitleSuccess');c.addClass('alertContainerSuccess');m.addClass('alertMessageSuccess');btn.addClass('alertButtonSuccess');}
+	if (type==='warning') {t.addClass('alertTitleWarning');c.addClass('alertContainerWarning');m.addClass('alertMessageWarning');btn.addClass('alertButtonWarning');}
+	if (type==='error') {t.addClass('alertTitleError');c.addClass('alertContainerError');m.addClass('alertMessageError');btn.addClass('alertButtonError');}
+
+	t.set('html', title); m.set('html', message); btn.set('html', button_text); // SET ALERT TITLE & MESSAGE
+	a.setStyle('display', 'none'); a.fade('out'); o.setStyle('display', 'none'); o.fade('out');  // HIDE/FADE "alertBox" & "alertBoxBG"
+	bg.setStyle('max-width', max_width); bg.setStyle('min-width', min_width); // SET MIN/MAX WIDTHS
+	
+	if (hide_button===true) {btn.destroy();}
+	if (message===null) {m.destroy();}
+	if (title===null) {t.destroy();}
+	
+	} else {
+	alertOverlay.inject(b, 'top');	
+	alertBox.inject(b, 'bottom');
+	alertBG.inject(document.id('alertBox'), 'top');
+	alertContainer.inject(document.id('alertBG'), 'top');
+	alertTitle.inject(document.id('alertContainer'), 'top');
+	alertMessage.inject(document.id('alertTitle'), 'after');
+	alertHTML.inject(document.id('alertMessage'), 'after');
+	alertButton.inject(document.id('alertHTML'), 'after');
+		
+	var a = document.id('alertBox'),bg=document.id('alertBG'),btn=document.id('alertButton'),c=document.id('alertContainer'),
+	t=document.id('alertTitle'),m=document.id('alertMessage'),o=document.id('alertOverlay'),h=document.id('alertHTML');
+
+	// SET CLASSES BASED ON ALERT TYPE
+	if (type==='info') {t.addClass('alertTitleInfo');c.addClass('alertContainerInfo');m.addClass('alertMessageInfo');btn.addClass('alertButtonInfo');}
+	if (type==='success') {t.addClass('alertTitleSuccess');c.addClass('alertContainerSuccess');m.addClass('alertMessageSuccess');btn.addClass('alertButtonSuccess');}
+	if (type==='warning') {t.addClass('alertTitleWarning');c.addClass('alertContainerWarning');m.addClass('alertMessageWarning');btn.addClass('alertButtonWarning');}
+	if (type==='error') {t.addClass('alertTitleError');c.addClass('alertContainerError');m.addClass('alertMessageError');btn.addClass('alertButtonError');}
+
+	t.set('html', title); m.set('html', message); btn.set('html', button_text); h.load(html); // SET ALERT TITLE & MESSAGE
+	a.setStyle('display', 'none'); a.fade('out'); o.setStyle('display', 'none'); o.fade('out');  // HIDE/FADE "alertBox" & "alertBoxBG"
+	bg.setStyle('max-width', max_width); bg.setStyle('min-width', min_width); // SET MIN/MAX WIDTHS
+	
+	if (hide_button===true) {btn.destroy();}
+	if (message===null) {m.destroy();}
+	if (title===null) {t.destroy();}
+	
+	}
+
+	
+	// DISPLAY MESSAGE TO USER
+	(function(){ if (dim===true) {o.setStyle('display','block');o.fade(0.5);}a.setStyle('display','block');a.fade('in');}).delay(500);
+	
+	
+	//  HIDE ALERT IF USER PRESSES "HIDE" KEY
+	addEvent('keydown', function(event){
+	if (event.key == hide_key) {
+		a.fade('out');
+		if (dim===true) {o.fade(0);}
+		(function(){a.empty(); }).delay(500);}
+	});
+	
+	// ADD LISTENER TO DISPLAY ALERT ON CLICK
+	btn.addEvent('click', function(){
+		if (dim===true) {o.fade(0);}
+		a.fade('out');
+		(function(){
+		a.empty(); }).delay(500);
+	});	
+
+	if (auto_close!==false) {
+
+	(function(){
+	if (dim===true) {o.fade(0);} a.fade('out'); (function(){a.empty(); }).delay(auto_close+500);}).delay(auto_close);}
+	});
+
+	
+	} else {
+	
+	
+		if (html===false) {
+	alertOverlay.inject(b, 'top');	
+	alertBox.inject(b, 'bottom');
+	alertBG.inject(document.id('alertBox'), 'top');
+	alertContainer.inject(document.id('alertBG'), 'top');
+	alertTitle.inject(document.id('alertContainer'), 'top');
+	alertMessage.inject(document.id('alertTitle'), 'after');
+	alertButton.inject(document.id('alertMessage'), 'after');
+
+		
+	var a = document.id('alertBox'),bg=document.id('alertBG'),btn=document.id('alertButton'),c=document.id('alertContainer'),
+	t=document.id('alertTitle'),m=document.id('alertMessage'),o=document.id('alertOverlay');
+
+	// SET CLASSES BASED ON ALERT TYPE
+	if (type==='info') {t.addClass('alertTitleInfo');c.addClass('alertContainerInfo');m.addClass('alertMessageInfo');btn.addClass('alertButtonInfo');}
+	if (type==='success') {t.addClass('alertTitleSuccess');c.addClass('alertContainerSuccess');m.addClass('alertMessageSuccess');btn.addClass('alertButtonSuccess');}
+	if (type==='warning') {t.addClass('alertTitleWarning');c.addClass('alertContainerWarning');m.addClass('alertMessageWarning');btn.addClass('alertButtonWarning');}
+	if (type==='error') {t.addClass('alertTitleError');c.addClass('alertContainerError');m.addClass('alertMessageError');btn.addClass('alertButtonError');}
+
+	t.set('html', title); m.set('html', message); btn.set('html', button_text); // SET ALERT TITLE & MESSAGE
+	
+	
+	
+	a.setStyle('display', 'none'); a.fade('out'); o.setStyle('display', 'none'); o.fade('out');  // HIDE/FADE "alertBox" & "alertBoxBG"
+	bg.setStyle('max-width', max_width); bg.setStyle('min-width', min_width); // SET MIN/MAX WIDTHS
+	
+	
+	if (hide_button===true) {btn.destroy();}
+	if (message===null) {m.destroy();}
+	if (title===null) {t.destroy();}
+	
+	} else {
+	alertOverlay.inject(b, 'top');	
+	alertBox.inject(b, 'bottom');
+	alertBG.inject(document.id('alertBox'), 'top');
+	alertContainer.inject(document.id('alertBG'), 'top');
+	alertTitle.inject(document.id('alertContainer'), 'top');
+	alertMessage.inject(document.id('alertTitle'), 'after');
+	alertHTML.inject(document.id('alertMessage'), 'after');
+	alertButton.inject(document.id('alertHTML'), 'after');
+		
+	var a = document.id('alertBox'),bg=document.id('alertBG'),btn=document.id('alertButton'),c=document.id('alertContainer'),
+	t=document.id('alertTitle'),m=document.id('alertMessage'),o=document.id('alertOverlay'),h=document.id('alertHTML');
+
+	// SET CLASSES BASED ON ALERT TYPE
+	if (type==='info') {t.addClass('alertTitleInfo');c.addClass('alertContainerInfo');m.addClass('alertMessageInfo');btn.addClass('alertButtonInfo');}
+	if (type==='success') {t.addClass('alertTitleSuccess');c.addClass('alertContainerSuccess');m.addClass('alertMessageSuccess');btn.addClass('alertButtonSuccess');}
+	if (type==='warning') {t.addClass('alertTitleWarning');c.addClass('alertContainerWarning');m.addClass('alertMessageWarning');btn.addClass('alertButtonWarning');}
+	if (type==='error') {t.addClass('alertTitleError');c.addClass('alertContainerError');m.addClass('alertMessageError');btn.addClass('alertButtonError');}
+
+	t.set('html', title); m.set('html', message); btn.set('html', button_text); h.load(html); // SET ALERT TITLE & MESSAGE
+	a.setStyle('display', 'none'); a.fade('out'); o.setStyle('display', 'none'); o.fade('out');  // HIDE/FADE "alertBox" & "alertBoxBG"
+	bg.setStyle('max-width', max_width); bg.setStyle('min-width', min_width); // SET MIN/MAX WIDTHS
+	
+	if (hide_button===true) {btn.destroy();}
+	if (message===null) {m.destroy();}
+	if (title===null) {t.destroy();}
+	
+	}
+	
+	
+	// DISPLAY MESSAGE TO USER
+	(function(){ if (dim===true) {o.setStyle('display','block');o.fade(0.5);}a.setStyle('display','block');a.fade('in');}).delay(500);
+	
+	
+	//  HIDE ALERT IF USER PRESSES "HIDE" KEY
+	addEvent('keydown', function(event){
+	if (event.key == hide_key) {
+		a.fade('out');
+		if (dim===true) {o.fade(0);}
+		(function(){a.empty(); }).delay(500);}
+	});
+	
+	// ADD LISTENER TO DISPLAY ALERT ON CLICK
+	btn.addEvent('click', function(){
+		if (dim===true) {o.fade(0);}
+		a.fade('out');
+		(function(){
+		a.empty(); }).delay(500);
+		if (button_action!=='hide') {location.href=button_action}
+	});	
+	}
+
+}, // end message function
+
+hide : function(){
+	var a = document.id('alertBox'),bg=document.id('alertBG'),btn=document.id('alertButton'),c=document.id('alertContainer'),
+	t=document.id('alertTitle'),m=document.id('alertMessage'),o=document.id('alertOverlay');
+
+	dim = this.options.dim_page;
+	
+	if (dim===true) {o.fade(0);}
+	a.fade('out');
+	(function(){
+	a.empty(); }).delay(500);
+	}
+
+});

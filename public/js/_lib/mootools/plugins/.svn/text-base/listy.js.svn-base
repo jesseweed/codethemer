@@ -1,0 +1,504 @@
+var listy = new Class({
+						 
+options: {
+// List Options
+id : 'listy',
+debug : false,
+wrapper_class : 'listyWrapper' ,
+container_class : 'listyContainer' ,
+labelClass : 'listyLabel' ,
+ulClass : 'listyHolder',
+liClass : 'listyItem',
+hideClass : 'hide',  // class that hides element (display:none)
+defaultMsg : 'Please select an option', // if list label has different value style will be set to "selected"
+displayNum : 5, // number of items to show at a time
+reduceHeight : 2, // if the calculated hieght is too tall you may reduce it by this many pixels
+increaseHeight : 0, // if the calculated hieght is too small you may increas it by this many pixels
+emptyMsg : 'Please select an option',
+
+onSelect : false,  // function to run when a value is selected (regarldess of value)
+onSelectSame : false, // function to run when the value selected is the same as previous value
+onChange : false, // function to run when the selected value is different from the previous value
+onLoad : false, // function to run when the list loads
+ifSelected : false,  // function to run if any value other than default is selected on load
+onOpen : false, // function to run when the list is opened
+onClose : false, // function to run when the list is closed
+hideForm : true, // Whether or not to hide the original select menu
+
+// Scroll options
+scrollUpID : 'scrollUp',
+scrollDownID : 'scrollDown',
+scrollUpTxt : 'scroll up', // text for scroll up button
+scrollDownTxt : 'scroll down', // text for scroll down button
+mouseScroll : true, // enable list scrolling with mouse wheel
+hideScroll : false, // set to true if you want to hide the scroll up/down buttons
+scrollAmt : 0, // how far to scroll in pixels (leave at zero to auto determine best scroll height)
+topBuffer : 0, // px to adjust if it scrolls too far up
+bottomBuffer : 2, // px to adjust if it scrolls too far down
+},
+
+initialize: function(options){
+this.setOptions(options)
+},
+
+
+
+run: function(){
+	
+	var id = this.options.id,
+	debug = this.options.debug,
+	wrapper_class=this.options.wrapper_class,
+	container_class=this.options.container_class,
+	labelClass=this.options.labelClass,
+	ulClass=this.options.ulClass,
+	liClass=this.options.liClass,
+	wrapper_id='listyWrapper_'+id,
+	container_id='listyContainer_'+id,
+	label_id='listyLabel_'+id,
+	ul_id='listyUL_'+id,
+	li_id='listyLI_',
+	hideClass = this.options.hideClass, // class that hides element (display:none)
+	scrollUpTxt = this.options.scrollUpTxt, // text for scroll up button
+	scrollDownTxt = this.options.scrollDownTxt, // text for scroll down button
+	displayNum = this.options.displayNum, // number of items to show at a time
+	scrollAmt=this.options.scrollAmt, // how many pixels to scroll
+	topBuffer=this.options.topBuffer, // px to adjust if it scrolls too far up
+	bottomBuffer=this.options.bottomBuffer, // px to adjust if it scrolls too far down
+	scrollDiv=this.options.scrollDiv, // div that we're scrolling
+	scrollHolder=this.options.scrollHolder, // container div with hidden overlay
+	reduceHeight = this.options.reduceHeight,  // if the calculated hieght is too tall you may reduce it by this many pixels
+	increaseHeight = this.options.increaseHeight,  // if the calculated hieght is too small you may increas it by this many pixels
+	mouseScroll = this.options.mouseScroll, // enable list scrolling with mousewheel
+	defaultMsg = this.options.defaultMsg, // if list label has different value style will be set to "selected"
+	hideScroll = this.options.hideScroll, // set to true if you want to hide the scroll up/down buttons
+	form=$(id),
+	hideForm = this.options.hideForm,
+	onSelect = this.options.onSelect,
+	onSelectSame = this.options.onSelectSame,
+	onLoad = this.options.onLoad,
+	onChange = this.options.onChange,
+	ifSelected = this.options.ifSelected,
+	ifNotSelected = this.options.ifNotSelected,
+	onOpen = this.options.onOpen,
+	onClose = this.options.onClose,
+	scrollUpID = this.options.scrollUpID+id,
+	scrollDownID = this.options.scrollDownID+id,
+	emptyMsg=this.options.emptyMsg,
+	rel = 'li_'+id,
+	isSelected=false,
+	listItems=0;
+
+
+	// Function to run on load
+	if (onLoad!==false) {
+			if (debug===true) {console.log('running '+onLoad+' function');}
+			eval(onLoad);
+	}
+
+	if (hideForm===true) {form.addClass(hideClass);}
+
+//	if (debug==true) {console.log('');}	
+	
+	if (!console) {debug=false;}
+	
+
+	// Create wrapper div
+	if (debug==true) {console.log('Injecting wrapper div with id '+wrapper_id)}
+	var wrapper = new Element('div', { 'id': wrapper_id, 'class' : wrapper_class });
+	wrapper.inject(form, 'after');
+	
+	// Create label div
+	if (debug==true) {console.log('Injection label div with id '+label_id)}
+	var label = new Element('div', { 'id': label_id, 'class' : labelClass });
+	label.inject(wrapper);
+	label.set('html', form.value); // set initial label value to fatch form
+	
+	// Create container div
+	if (debug==true) {console.log('Injecting container div with id '+container_id)}
+	var container = new Element('div', { 'id': container_id, 'class' : container_class });
+	container.inject(wrapper);
+	
+	// Create unordered list
+	if (debug==true) {console.log('Injecting ul with id '+ul_id)}
+	var ul = new Element('ul', { 'id': ul_id, 'class' : ulClass });
+	ul.inject(container_id);
+
+
+	var holder = $(ul_id),
+	scrollDiv = ul_id, // div that we're scrolling
+	scrollHolder = container_id; // container div with hidden overlay
+
+
+	label = $(label_id);
+
+	// Loop through select options
+	if (debug==true) {console.log('Creating list items...')}
+	for (var i=0; i<form.options.length; i++){
+
+
+	var this_id = $(form.options[i]).get('id'), // ID of current option
+	value = $(form.options[i]).get('html'), // value of current option
+	id = li_id+this_id; // id of list item we're going to create
+
+	if (value!==emptyMsg) {
+
+	// create list item
+	var li = new Element('li', { 'id': id, 'class' : liClass, 'rel': rel, });
+	li.inject(ul);
+	li.set('html', value);
+	
+	listItems++;
+	}
+	
+	
+	} // End loop
+	
+	
+	
+
+	if (debug==true) {console.log('Your list has '+listItems+' items.')} // Log num items found
+
+
+	// Add click event to label to open/close our list
+	if (debug===true) {console.log('Giving open/close super powers to element with id '+$(label).get('id'));}
+	$(label).addEvent('click', function() {	toggle();});
+
+
+	// If scroll button should be shown
+	if (hideScroll===false) {
+		
+	holder.setStyle('top', '0px');
+	holder.setStyle('margin', '0px');
+
+	// Create Scroll Up Button
+	var scrollUpBtn = new Element('div', { 'id': scrollUpID });
+	scrollUpBtn.inject(container, 'before');
+	$(scrollUpID).addClass(hideClass);
+	$(scrollUpID).set('html', scrollUpTxt);
+	var scrollUp = $(scrollUpID);
+	if (debug===true) {console.log('Injecting scroll up button');}
+	scrollUp.addEvent('click', function() { scroller('up');});
+	
+	
+	// Create Scroll Down Button
+	var scrollDownBtn = new Element('div', { 'id': scrollDownID });
+	scrollDownBtn.inject(container, 'after');
+	$(scrollDownID).addClass(hideClass);
+	$(scrollDownID).set('html', scrollDownTxt);
+	var scrollDown = $(scrollDownID);
+	if (debug===true) {console.log('Injecting scroll down button');}
+	scrollDown.addEvent('click', function() { scroller('down');});
+
+
+	// Add click events to scroll buttons
+	if (debug===true) {console.log('Giving scroll down super powers to element with id '+$(scrollDown).get('id'));}
+	scrollDown.addEvent('click', function() { scroller('down');});
+	
+		
+	// Enable scrolling with mouse wheel	
+	if (mouseScroll===true) {
+	if (debug===true) {console.log('Endowing mousewheel with scrolling super powers');}
+	$(container).addEvent('mousewheel', function(event) {
+	var dir = event.wheel;
+	if (dir>0) {scroller('up');}
+	if (dir<0) {scroller('down');}
+	});}
+	
+	}
+	
+	
+	if (displayNum>listItems) {
+	scrollUp.addClass(hideClass);
+	scrollDown.addClass(hideClass);
+	hideScroll=true;
+	if (debug===true) {
+	console.log(displayNum+' items requested, but I only  found '+listItems+'. Setting display cound to '+listItems+' and hiding scroll buttons');}
+	displayNum=listItems;
+	}
+	
+	
+	
+	
+	
+	var h = holder.getElement('li').getStyle('height');
+	
+	h = parseFloat(h.split("px").join(""));
+		
+	// Calculate dimensions
+	if (debug===true) {console.log('Calculating proper open height to show '+displayNum+' items at a time');}
+	var padTop = holder.getElement('li').getStyle('padding-top'); padTop = parseFloat(padTop.split("px").join("")); // Top padding
+	var padBottom = holder.getElement('li').getStyle('padding-bottom'); padBottom = parseFloat(padBottom.split("px").join("")); // Bottom padding
+	var borderTop = holder.getElement('li').getStyle('border-top'); borderTop = parseFloat(borderTop.split("px").join("")); // Top border
+	var borderBottom = holder.getElement('li').getStyle('border-bottom'); borderBottom = parseFloat(borderBottom.split("px").join("")); // Bottom border
+	var marginTop = holder.getElement('li').getStyle('margin-top'); marginTop = parseFloat(marginTop.split("px").join("")); // Top margin
+	var margin_bottom = holder.getElement('li').getStyle('margin-bottom'); margin_bottom = parseFloat(margin_bottom.split("px").join("")); // Bottom margin
+	var border=borderTop+borderBottom; // total border size in px
+	var margin=marginTop+margin_bottom; // total margin size in px
+	var itemHeight=(padTop+padBottom+h+border+margin);
+	var height=(padTop+padBottom+h+border+margin)*displayNum; // calculate the "open" heigh based on # items
+	if (debug===true) {console.log('I\'ve determined the open height should be '+height+'px');}
+	
+	if (reduceHeight!==0) {
+	height = height-reduceHeight;
+	if (debug===true) {console.log('You\'ve requested to reduce the height by '+reduceHeight+'px to i have adjusted the height to '+height+'px');}
+	}
+	
+	if (increaseHeight!==0) {
+	height = height+increaseHeight;
+	if (debug===true) {console.log('You\'ve requested to increase the height by '+increaseHeight+'px to i have adjusted the height to '+height+'px');}
+	}
+	
+	if (scrollAmt===0) {
+	scrollAmt = itemHeight*displayNum;
+	scroll_orig = scrollAmt;
+	if (debug===true) {console.log('The scroll amount should be '+scrollAmt);}
+	}
+	
+	
+	if (label.get('html')===emptyMsg) {
+	
+	}	
+	
+	
+	
+	
+	if (form.value!==emptyMsg) {isSelected=true;}
+	
+	//+++++++++++++++++++++++++++++++++++	
+	// Do this when an option is selected
+	//+++++++++++++++++++++++++++++++++++	
+	$$('.'+liClass).each(function(el) {
+	
+	if (el.get('rel')==rel) {
+	
+	var label = $(label_id),
+	wrapper = $(wrapper),
+	container = $(container_id);
+	
+	if (label.get('html')===el.get('html')) {
+		el.addClass(liClass+'Selected')
+		
+		
+		
+	}
+
+
+
+	$(el.get('id')).addEvent('click', function() {
+
+
+		if (onSelect!==false) {
+			if (debug===true) {console.log('running '+onSelect+' function');}
+			eval(onSelect);
+		}
+		
+		if (onChange!==false) {
+			if (form.value!==el.get('html')) {
+				if (debug===true) {console.log('running '+onChange+' function');}
+				eval(onChange);
+			}
+		}
+	
+		if (onSelectSame!==false) {
+			if (form.value===el.get('html')) {
+				if (debug===true) {console.log('running '+onSelectSame+' function');}
+				eval(onSelectSame);
+			}
+		}
+
+		$$('.'+liClass+'Selected').each(function(el) {
+		el.removeClass(liClass+'Selected')
+		
+		});
+
+	if (debug===true) {console.log(el.get('html')+' selected');} // Log selection
+
+//	alert (label.get('id'));
+	
+	var value = el.get('html');
+
+	value = value.split("&amp;").join("&")
+
+	label.set('html', value);
+	form.value=value;
+	el.addClass(liClass+'Selected')
+	toggle();
+	});
+	}
+	
+	});
+	
+	//+++++++++++++++++++++++++++++++++++++++
+	//+++++++++++++++++++++++++++++++++++ END
+	//+++++++++++++++++++++++++++++++++++++++
+	
+
+// Do this if label value differs from the default
+	if (isSelected===true) {
+		label.addClass(labelClass+'Close');
+		label.removeClass(labelClass);
+		label.removeClass(labelClass+'Selected');
+		
+		// Function to run on load if label value differs from the default value
+		if (debug===true) {console.log('running '+ifSelected+' function');}
+		if (ifSelected!==false) {eval(ifSelected);}
+	}
+	
+
+	// Do this if label value matches the default
+	if (isSelected===false) {
+		label.addClass(labelClass);
+		label.removeClass(labelClass+'Close');
+		label.removeClass(labelClass+'Selected');
+		
+		// Function to run on load if label value differs from the default value
+		if (debug===true) {console.log('running '+ifNotSelected+' function');}
+		if (ifNotSelected!==false) {eval(ifNotSelected);}
+	}
+
+
+	
+	
+	
+	
+	// Function to open/close the list
+	function toggle() {
+	
+	var label = $(label_id),
+	wrapper = $(wrapper),
+	container = $(container_id);
+
+	// "Open/Selected" styles
+	if (label.get('class')===labelClass || label.get('class')===labelClass+'Close' || label.get('class')===labelClass+'Error') {
+	label.set('class', labelClass+'Selected');
+	// "Closed Styles"
+	} else {
+	label.set('class', labelClass+'Close');
+	}
+
+	// Open list
+	if (container.getStyle('height')==='0px') {
+	
+		container.tween('height', height+'px');
+
+		
+		// Show scroll buttons
+		if (hideScroll===false) {
+			scrollUp.removeClass(hideClass);
+			scrollUp.addClass('listyScrollUp');
+			scrollDown.removeClass(hideClass);
+			scrollDown.addClass('listyScrollDown');
+		}
+		
+		// Add bottom border if no scroll
+		else {
+			$(container).addClass('border');
+		}
+		
+	// Function to run on open
+		if (onOpen!==false) {
+			if (debug===true) {console.log('running '+onOpen+' function');}
+			eval(onOpen);
+	}
+		
+		// Log list closure
+		if (debug===true) {console.log('The list is open.');}
+	}
+
+	// Close the list
+	else {
+	
+		container.setStyle('height', '0px');
+
+		if (hideScroll===false) {
+			scrollUp.removeClass('listyScrollUp');
+			scrollDown.removeClass('listyScrollDown');
+			scrollUp.addClass('hide');
+			scrollDown.addClass('hide');
+		}
+		else {
+			$(container).removeClass('border');
+		}
+
+	
+
+		if (defaultMsg===label.get('html')) {
+			label.removeClass(labelClass+'Close');
+			label.addClass(labelClass);
+			label.removeClass(labelClass+'Selected');
+		}
+	
+	// Function to run on close
+	if (onClose!==false) {
+		if (debug===true) {console.log('running '+onClose+' function');}
+		eval(onClose);
+	}
+
+	
+	// Log list closure
+	if (debug===true) {console.log('List has been closed');}
+	
+	}
+	
+	} // end toggle function
+	
+	
+	
+	
+	
+	// Function to scroll the list
+	function scroller(direction) {
+	margin = $(scrollDiv).getStyle('margin-top'),
+	content_height = $(scrollDiv).getStyle('height'),
+	holder_height = $(scrollHolder).getStyle('height');
+	
+	margin = margin.split("-").join("");
+	margin = parseFloat(margin.split("px").join(""));
+	content_height = parseFloat(content_height.split("px").join(""));
+	holder_height = parseFloat(holder_height.split("px").join(""));
+	
+	if (direction==='down') {
+	
+	var stop = (content_height-holder_height)-bottomBuffer;
+	var buffer = (content_height-holder_height)-scrollAmt;
+	var remaining=stop-margin;
+	
+	if (margin>buffer) {margin=margin+remaining;}
+	else {margin=margin+scrollAmt;}
+		
+	if (remaining!==0) {
+	if (debug===true) {console.log('GOING DOWN... margin: '+margin+' - stop:'+stop+' - remaining: '+remaining);}
+	$(scrollDiv).tween('margin-top', '-'+margin+'px');
+	} else {
+	if (debug===true) {console.log('Nowhere left to scroll');}
+	}
+	
+	}
+	
+	if (direction==='up') {
+
+	var stop = 0+topBuffer;
+	var remaining=margin-stop;
+	
+	if (remaining<scrollAmt) {scrollAmt=remaining;}
+	if (remaining===0) {scrollAmt=scroll_orig;}
+	
+	margin=margin-scrollAmt;
+	
+		if (remaining===0) {
+		if (debug===true) {console.log('Nowhere left to scroll');}
+		} else {
+		if (debug===true) {console.log('GOING UP... margin: '+margin+' - stop:'+stop+' - remaining: '+remaining+' - scroll: '+scrollAmt);}
+		$(scrollDiv).tween('margin-top', '-'+margin+'px');			
+		}
+	}
+
+	}
+
+	
+	
+	
+},
+
+
+});

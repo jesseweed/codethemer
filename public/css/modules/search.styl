@@ -1,0 +1,156 @@
+#search-result
+    text-align left
+
+#search-head
+    display block
+
+#search-name
+    display inline-block
+    margin-bottom 20px
+
+#search-status
+    font-size 2em
+    padding 0
+    margin 0px 0px 20px 20px
+    display inline-block
+
+#search-controls
+    float right
+    clear left
+
+#claim-name
+    display block
+    gradient-horizontal(color-secondary-dark, color-secondary)
+    color color-secondary-text
+
+#add-name
+    display block
+    margin-bottom 10px
+    color color-primary-text
+
+.save-btn
+    width 200px
+
+
+
+
+/////////////////////////////
+
+/* SEARCH RESULTS */
+
+
+#search-action-buttons
+  float right
+
+#claim-name, #save-name
+  border none
+  background none
+  padding 7px 7px 7px 10px
+  display block
+  width 160px
+  color #fff
+  text-align left
+  @round(3px);
+  font-size 1.077em
+  font-weight 500
+
+#save-name
+  background-image url(img'icons/name-save.png')
+  background-repeat no-repeat
+  background-position  135px 7px
+
+#claim-name
+  background-image url(img'icons/name-claim.png')
+  background-repeat no-repeat
+  background-position  135px 7px
+
+#claim-name.saved, #save-name.saved, #claim-name.good, #save-name.good
+  background-color color-good
+  background-image url(img'icons/name-check.png')
+  background-repeat no-repeat
+  background-position  135px 7px
+
+h5.search-status
+  display inline-block
+  margin-top 5px
+  @round 3px
+  background #ccc
+  font-size 0.923em
+  padding 5px 10px 5px 10px
+
+#save-name
+  background-color #475554
+  margin-bottom 10px
+
+#claim-name
+  background-color #8966AC
+
+.result-set
+  background-color #D1D5D4
+  padding-bottom 1px
+  margin-bottom 20px
+  overflow hidden
+  border solid 1px rgba(0,0,0,0.8)
+
+.result-set.taken
+  padding-bottom 0
+
+.result-set h2
+  background #323232
+  color #FFF
+  font-size 1.385em
+  padding 0.5em
+  font-weight 300
+
+.result-header
+    cursor pointer
+
+.collapse-icon
+  float right
+  padding 2px 5px 0 0
+
+.status-icon
+  margin -3px 10px 0px 3px
+  width 20px
+  height 20px
+
+.band-status, .band-info
+  display inline-block
+  text-align center
+  round(5px)
+  padding 3px 8px 3px 8px
+  margin -1px 0px 0px 20px
+  min-width 50px
+  font-size 0.9em
+  transition(background-color)
+
+.band-status:hover, .band-info:hover
+  background-color color-secondary
+  color color-primary-text
+
+.band-info
+  float right
+  background-color color-primary
+  color color-primary-text
+  opacity 1
+  transition opacity .5s ease-in-out
+  -moz-transition opacity .5s ease-in-out
+  -webkit-transition opacity .5s ease-in-out
+  font-weight normal
+
+.band-infohove
+  float right
+  background-color color-primary
+  color color-primary-text
+  opacity 0.6
+  font-weight normal
+  
+
+.result-name li
+  display block
+  background #FFF
+  margin 1em
+  padding 1em
+
+.status-icon
+  margin-bottom -0.2em

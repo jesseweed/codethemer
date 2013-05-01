@@ -1,0 +1,80 @@
+extends code_layout
+
+block append js
+
+block content
+
+    section.content
+        
+        include ui/tabs
+
+        section.code
+            section.html
+
+                span.comment.
+                    &lt;!-- HTML5 DOCUMENT --&gt;
+
+                br
+                br
+
+                span.tag.
+                    &lt;html&gt;
+
+                br
+                br
+
+                <!-- HEAD -->
+                span.tag.tab1.
+                        &lt;head&gt;
+
+                br
+                br
+
+                span.tag.tab2
+                        | &lt;meta 
+                        span.attribute.
+                            charset="utf-8" 
+                        | &gt;
+
+                br
+                br
+
+                span.tag.tab2
+                    | &lt;title&gt;
+                    span.text Site Title
+                    | &lt;title&gt;
+
+                br
+                br
+
+                span.tag.script.tab2
+                    | &lt;script src=
+                    span.attribute "js/app.js"
+                    | &gt;&lt;/script&gt; 
+
+                br
+                br
+
+                span.tag.tab1.
+                    &lt;/head&gt;
+
+                br
+                br
+
+                <!-- BODY -->
+                span.tag.tab1.
+                    &lt;body&gt;
+
+                br
+                br
+
+                span.tag.tab1.
+                    &lt;/body&gt;
+
+                br
+                br
+
+                span.tag.
+                    &lt;/html&gt;
+
+
