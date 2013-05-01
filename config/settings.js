@@ -25,8 +25,8 @@ module.exports = function (app, express) {
 
     // set domain
     if (env === 'development') { app.site.domain = "localhost:" + app.site.port + "/";
-        } else if (env === 'staging') { app.site.domain = 'staging.codethemer.com';
-        } else { app.site.domain = 'codethemer.com'; }
+        } else if (env === 'staging') { app.site.domain = 'staging.codethemer.com/';
+        } else { app.site.domain = 'codethemer.com/'; }
 
     // base url
     app.site.url = app.site.protocol + app.site.domain;
