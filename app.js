@@ -27,9 +27,9 @@ require('./config/errors.js')(app, app.site);
 
 //app.resource('search', require('./routes/search.js'));
 
-// start server
 
-http.createServer(app).listen(app.site.port, function () {
+// start server
+http.createServer(app).listen(process.env.PORT || app.site.port, function () {
     "use strict";
     console.log("Express server listening on port " + app.site.port);
 });
