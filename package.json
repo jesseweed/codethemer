@@ -27,7 +27,8 @@
     "MD5": "1.0.x",
     "express-resource": "1.0.x",
     "mongoose": "3.5.x",
-    "xml2js": "~0.2.6"
+    "xml2js": "~0.2.6",
+    "js": "*"
   },
   "license": "MIT",
   "engines": {
