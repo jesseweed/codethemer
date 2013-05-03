@@ -23,6 +23,9 @@ html
     //- js
     block js
       each js in site.js
+        script
+          var site =!{JSON.stringify(site)}
+          var theme =!{theme}
         script(src=js)
 
   body

@@ -1,0 +1,34 @@
+doctype 5
+html
+  head
+  
+    //- metatags
+    meta(charset=site.meta.encoding)
+    meta(name='viewport', content=site.meta.viewport)
+    meta(name='description', content=site.meta.description)
+    meta(name='keywords', content=site.meta.keywords)
+
+    //- page title
+    title= site.page_title
+
+    //- favicons
+    each icon in site.favicon
+      link(rel='shortcut icon', type='image/x-icon', href=icon)
+
+    //- css
+    block css
+      each css in site.css
+        link(rel='stylesheet', href=css)
+
+    script
+        var site =!{JSON.stringify(site)}
+        var theme =!{theme}
+
+    //- js
+    block js
+      each js in site.js
+        script(src=js)
+
+
+  body
+    

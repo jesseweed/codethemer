@@ -6,7 +6,79 @@ block append js
         
         include ../ui/tabs
 
-        section.code
-            section.php.
+        section.code.foreground
 
-                JS CODE HERE
+            div.br
+                span.editable-region.foreground(attr="foreground") App 
+                span.editable-region.keyword(attr="keyword") = 
+                span.editable-region.foreground(attr="foreground") {
+
+            div.tab1.br
+
+                
+                span.editable-region.function-name(attr="function-name") greeting 
+                span.editable-region.foreground(attr="foreground") : 
+                span.editable-region.storage-type(attr="storage-type") function 
+                span.editable-region.foreground(attr="foreground") ( 
+                span.editable-region.function-argument(attr="function-argument") say 
+                span.editable-region.foreground(attr="foreground") ) 
+                span.editable-region.foreground(attr="foreground") {
+                    
+                    
+            div.tab2.br
+
+                div.br
+                    span.editable-region.storage-type(attr="storage-type") var 
+                    span.editable-region.foreground(attr="foreground") self 
+                    span.editable-region.keyword(attr="keyword") = 
+                    span.editable-region.foreground(attr="foreground") this
+                
+                div.br
+                    span.editable-region.storage-type(attr="storage-type") var 
+                    span.editable-region.foreground(attr="foreground") num 
+                    span.editable-region.keyword(attr="keyword") = 
+                    span.editable-region.number(attr="number") 23
+
+                div.br.editable-region.foreground(attr="foreground") header = 
+                span.editable-region.keyword(attr="keyword") $
+                span.editable-region.foreground(attr="foreground") (
+                span.editable-region.string(attr="string") 'header'
+                span.editable-region.foreground(attr="foreground") ).set(
+                span.editable-region.string(attr="string") 'html'
+                span.editable-region.foreground(attr="foreground") , say);
+
+                div.br
+                span.editable-region.foreground(attr="foreground") console
+                span.editable-region.support-function .log
+                span.editable-region.foreground(attr="foreground") (
+                span.editable-region.string(attr="string") 'set ' 
+                span.editable-region.keyword(attr="keyword") + 
+                span.editable-region.foreground(attr="foreground") say 
+                span.editable-region.keyword(attr="keyword") + 
+                span.editable-region.string(attr="string") ' as header.'
+                span.editable-region.foreground(attr="foreground") );
+
+            div.tab1.br
+                span.editable-region.foreground(attr="foreground") }
+
+            div.br
+                span.editable-region.foreground(attr="foreground") });
+
+            br
+
+            div.comment
+                span.editable-region.foreground(attr="foreground") // THIS IS A JS COMMENT
+
+            div.br
+
+                div.br
+                    span.editable-region.foreground(attr="foreground") head.ready(
+                    span.editable-region.storage-type(attr="storage-type") function
+                    span.editable-region.foreground(attr="foreground") () {
+
+                div
+                    span.editable-region.tab1.foreground(attr="foreground") App.greeting(
+                    span.editable-region.string(attr="string") 'hello world'
+                    span.editable-region.foreground(attr="foreground") );
+
+            span.editable-region.foreground(attr="foreground") });

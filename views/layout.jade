@@ -20,6 +20,10 @@ html
       each css in site.css
         link(rel='stylesheet', href=css)
 
+    script
+        var site =!{JSON.stringify(site)}
+        var theme =!{theme}
+        
     //- js
     block js
       each js in site.js

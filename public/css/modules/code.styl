@@ -1,13 +1,30 @@
 codeMargin = 22
 
+.attribute-label
+    display block
+    margin-bottom 8px
+    font-size 1.1em
+    letter-spacing 0.1em
+
+.hover
+    cursor pointer
+    transition(opacity)
+
+.hover:hover
+    opacity 0.6
+
 .code-bg 
     background-color #444
 
 .code
     padding 10px 10px 10px 10px
     font-family "BitstreamVeraSansMonoRoman", Andale Mono, monospace
-    font-size: 15px;
-    color: rgba(255, 255, 255, 0.5)
+    font-size 15px
+    color rgba(255, 255, 255, 0.5)
+    line-height 150%
+
+.br
+    margin-bottom 15px
 
 .tab1
     margin-left codeMargin px
@@ -24,16 +41,16 @@ codeMargin = 22
 
 // HTML COLORS
 
-.html .tag
+.tag
     color #F9B4AF
 
-.html .comment
+.comment
     color #44544D
 
-.html .attribute
+.attribute
     color: #DFDBBB
 
-.html .text
+.foreground
     color #857C6B
 
 .html .script

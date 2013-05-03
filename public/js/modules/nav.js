@@ -16,17 +16,6 @@ App.Nav = {
             self.openPage($(this).get('key'), $(this).get('html').split(' ').join(''));
         });
 
-        
-
-        // this.fileList();
-
-        // Storage.remove('pages');
-
-        // localStorage.removeItem('pages')
-
-        this.openPages();
-        // this.setPages();
-
         // Set links for each tab
         $$('ul.tabs li').each(function(el){
 
@@ -136,6 +125,11 @@ App.Nav = {
     },
 
     init : function () {
+
+        this.bind();
+        
+        // display tabs for all open pages
+        this.openPages();
 
     },
 
@@ -259,7 +253,7 @@ App.Nav = {
 
         // create list item to add to open tabs list
         var li  = new Element("li", {
-            id: key,
+            id: 'tab-' + key,
             href: Location.url + 'render/' + key
         }); 
 
@@ -290,6 +284,8 @@ App.Nav = {
         $(li).adopt(img);
 
         $(li).set('html', ( $(li).get('html') + name ) );
+
+        if ( App.Browser.page() === key ) li.addClass('active');
 
         $$(this.html.tabClass).adopt(li);
 

@@ -321,7 +321,7 @@ h4.subheader {
 }
 .nav {
   position: fixed;
-  z-index: 0;
+  z-index: 2;
   background-color: #0e1008;
   width: 20%;
   left: 0px;
@@ -378,12 +378,12 @@ h4.subheader {
   background-color: rgba(255,255,255,0.1);
 }
 .tab-header {
-  background-color: #0e1008;
+  background-color: #666;
   width: 100%;
   padding-top: 5px;
 }
 .tabs {
-  background-color: #0e1008;
+  background-color: #666;
 }
 .tabs li a {
   color: #fff;
@@ -391,9 +391,8 @@ h4.subheader {
 .tabs li {
   padding: 8px 60px 8px 16px;
   margin: 0px;
-  margin-right: -6px;
-  margin-left: -1px;
-  border-left: solid 1px #0e1008;
+  margin-right: -10px;
+  margin-left: 7px;
   display: inline-block;
   background-color: #2e3229;
   -webkit-border-top-left-radius: 20px;
@@ -430,6 +429,21 @@ h4.subheader {
   padding-right: 10px;
   cursor: pointer;
 }
+.attribute-label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 1.1em;
+  letter-spacing: 0.1em;
+}
+.hover {
+  cursor: pointer;
+  transition: opacity 0.5s ease-in-out;
+  -moz-transition: opacity 0.5s ease-in-out;
+  -webkit-transition: opacity 0.5s ease-in-out;
+}
+.hover:hover {
+  opacity: 0.6;
+}
 .code-bg {
   background-color: #444;
 }
@@ -438,6 +452,10 @@ h4.subheader {
   font-family: "BitstreamVeraSansMonoRoman", Andale Mono, monospace;
   font-size: 15px;
   color: rgba(255,255,255,0.5);
+  line-height: 150%;
+}
+.br {
+  margin-bottom: 15px;
 }
 .tab1 {
   margin-left: 22px;
@@ -451,20 +469,45 @@ h4.subheader {
 .tab4 {
   margin-left: 88px;
 }
-.html .tag {
+.tag {
   color: #f9b4af;
 }
-.html .comment {
+.comment {
   color: #44544d;
 }
-.html .attribute {
+.attribute {
   color: #dfdbbb;
 }
-.html .text {
+.foreground {
   color: #857c6b;
 }
 .html .script {
   color: #d6432d;
+}
+* {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+.edit-block {
+  position: fixed;
+  width: 20%;
+  padding-right: 20px;
+  bottom: 10px;
+}
+input {
+  border: none;
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+input[type=color] {
+  background: #fff;
+  color: #c00;
+  height: 35px;
+  padding: 0px;
+  -webkit-appearance: none;
 }
 .left,
 .right {

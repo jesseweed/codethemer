@@ -1,12 +1,32 @@
 /*jslint node: true, nomen: true, devel: true, indent: 4 */
 
-module.exports = function (app, site) {
+module.exports = function (app, site, parser) {
 
     "use strict";
 
     var url = require('url'),
         md5 = require('MD5'),
+        fs = require('fs'),
+        util = require('util'),
+        xml2js = require('xml2js'),
+        parseString = require('xml2js').parseString,
+        parser = new xml2js.Parser(),
         http = require('http');
+        
+
+        function theme_file(req) {
+
+            if ( typeof req.query["theme"] !== 'undefined' ) {
+                var theme = './public/themes/' + req.query["theme"] + '.tmTheme';
+            } else if ( typeof req.route.params[1] !== 'undefined' ) {
+                var theme = './public/themes/' + req.route.params[1] + '.tmTheme';
+            } else {
+                var theme = './public/themes/Contrast/Darkside.tmTheme';
+            }
+
+            return theme;
+
+        }
 
 
     // = = = = =
@@ -14,11 +34,20 @@ module.exports = function (app, site) {
     // = = = = =
     app.get('/', function (req, res) {
 
-        var data = {
-            site: site
-        };
+        fs.readFile(theme_file(req), function(err, data) {
 
-        res.render('code/empty', data); // load view
+            parser.parseString(data, function (err, result) {
+
+                var data = {
+                    site: site,
+                    theme: JSON.stringify( result )
+                };
+                
+                res.render('code/empty', data); // load view
+
+            });
+
+        });
 
     });
 
@@ -32,33 +61,50 @@ module.exports = function (app, site) {
     // = = = = =
     app.get('/render/*', function (req, res) {
 
-        var path = req.url.split('/');
+        fs.readFile(theme_file(req), function(err, data) {
 
-        // console.log(path[2]);
+            parser.parseString(data, function (err, result) {
 
-        var data = {
-            site: site
-        };
+                var data = {
+                    site: site,
+                    theme: JSON.stringify( result )
+                };
+                
+                res.render('code/' + req.route.params[0], data); // load view
 
-        res.render('code/' + path[2], data); // load view
+            });
+
+        }); 
+
 
     });
 
     // = = = = =
-    // End HELLO
+    // End RENDER
     // = = = = =
 
 
     // = = = = =
     // HELLO PAGE
     // = = = = =
-    app.get('/hello/world', function (req, res) {
+    app.get('/parse/*', function (req, res) {
 
-        var data = {
-            site: site
-        };
+        parser.addListener('end', function(result) {
 
-        res.render('hello', data); // load view
+            var page_data = {
+                site: site,
+                theme: JSON.stringify( result )
+            };
+
+            res.render('theme', page_data); // load view            
+
+        });
+
+        fs.readFile('./public/themes/Github.tmTheme', function(err, data) {
+            
+            parser.parseString(data, res);
+
+        });
 
     });
 

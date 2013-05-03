@@ -7,72 +7,103 @@ block append js
         include ../ui/tabs
 
         section.code
-            section.html
 
-                span.comment.
-                    &lt;!-- HTML5 DOCUMENT --&gt;
+            //- DOCTYPE
+            span.editable-region.foreground(attr="foreground") &lt;!DOCTYPE html&gt;
 
-                br
-                br
+            //- HTML OPEN
+            div.br
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.tag(attr="tag") html
+                span.editable-region.attribute(attr="attribute") lang
+                span.editable-region.foreground(attr="foreground") =
+                span.editable-region.string(attr="string") "en-US" 
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                span.tag.
-                    &lt;html&gt;
+            //- HEAD OPEN
+            div.tab1.br
+                    span.editable-region.foreground(attr="foreground") &lt;
+                    span.editable-region.tag(attr="tag") head
+                    span.editable-region.foreground(attr="foreground") &gt;
 
-                br
-                br
+            //- META TAG
+            div.tab2
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.tag(attr="tag") meta 
+                span.editable-region.attribute(attr="attribute") charset
+                span.editable-region.foreground(attr="foreground") =
+                span.editable-region.string(attr="string") "utf-8" 
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                <!-- HEAD -->
-                span.tag.tab1.
-                        &lt;head&gt;
+            //- TITLE
+            div.tab2
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.tag(attr="tag") title
+                span.editable-region.foreground(attr="foreground") &gt;Site Title&lt;
+                span.editable-region.tag(attr="tag") title
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                br
-                br
+            //- JS LINK
+            div.script.tab2.br
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.tag(attr="tag") script 
+                span.editable-region.attribute(attr="attribute") src
+                span.editable-region.foreground(attr="foreground") =
+                span.editable-region.string(attr="string") "js/app.js"
+                span.editable-region.foreground(attr="foreground") &gt;
+                span.editable-region.foreground(attr="foreground") &lt;/
+                span.editable-region.tag(attr="tag") script
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                span.tag.tab2
-                        | &lt;meta 
-                        span.attribute.
-                            charset="utf-8" 
-                        | &gt;
+            //- INLINE JS
 
-                br
-                br
+            //- HEAD CLOSE
+            div.tab1.br
+                span.editable-region.foreground(attr="foreground") &lt;/
+                span.editable-region.tag(attr="tag") head
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                span.tag.tab2
-                    | &lt;title&gt;
-                    span.text Site Title
-                    | &lt;title&gt;
+            //- BODY OPEN
+            div.tab1.br
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.foreground(attr="foreground") body
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                br
-                br
 
-                span.tag.script.tab2
-                    | &lt;script src=
-                    span.attribute "js/app.js"
-                    | &gt;&lt;/script&gt; 
+            div.tab2.br
+                span.editable-region.comment(attr="comment") &lt;!-- THIS IS AN HTML COMMENT --&gt;
 
-                br
-                br
+            div.tab2
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.tag(attr="tag") header
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                span.tag.tab1.
-                    &lt;/head&gt;
+            div.tab3
+                span.editable-region.foreground(attr="foreground") &lt;
+                span.editable-region.foreground(attr="foreground") h1 
+                span.editable-region.attribute(attr="attribute") class
+                span.editable-region.foreground(attr="foreground") =
+                span.editable-region.string(attr="string") "header"
+                span.editable-region.foreground(attr="foreground") &gt;Greetings!&lt;/
+                span.editable-region.foreground(attr="foreground") h1
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                br
-                br
+            div.tab2.br
+                span.editable-region.foreground(attr="foreground") &lt;/
+                span.editable-region.tag(attr="tag") header
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                <!-- BODY -->
-                span.tag.tab1.
-                    &lt;body&gt;
 
-                br
-                br
+            //- BODY CLOSE
+            div.tab1
+                span.editable-region.foreground(attr="foreground") &lt;/
+                span.editable-region.tag(attr="tag") body
+                span.editable-region.foreground(attr="foreground") &gt;
 
-                span.tag.tab1.
-                    &lt;/body&gt;
-
-                br
-                br
-
-                span.tag.
-                    &lt;/html&gt;
+            //- HTML CLOSE
+            div
+                span.editable-region.foreground(attr="foreground") &lt;/
+                span.editable-region.tag(attr="tag") html
+                span.editable-region.foreground(attr="foreground") &gt;
 
 
