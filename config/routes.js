@@ -63,16 +63,27 @@ module.exports = function (app, site, parser) {
 
         fs.readFile(theme_file(req), function(err, data) {
 
-            parser.parseString(data, function (err, result) {
+            if ( err !== null ) {
 
-                var data = {
-                    site: site,
-                    theme: JSON.stringify( result )
-                };
-                
-                res.render('code/' + req.route.params[0], data); // load view
+                console.log('ERROR!!!!!');
+                console.log(err);
+                console.log('............');
 
-            });
+                res.write(err);
+                res.end();
+
+            } else {
+                parser.parseString(data, function (err, result) {
+
+                    var data = {
+                        site: site,
+                        theme: JSON.stringify( result )
+                    };
+                    
+                    res.render('code/' + req.route.params[0], data); // load view
+
+                });
+            }
 
         }); 
 
